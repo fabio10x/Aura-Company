@@ -25,6 +25,7 @@ export interface TestimonialItem {
     author: string
     role: string
     company: string
+    photo?: string
 }
 
 // 1. SERVICES DATA
@@ -107,12 +108,14 @@ export const testimonialsData: TestimonialItem[] = [
         quote: "Aura completely overhauled our client coordination panel. The immediate responsiveness of the frontend architecture reduced our data friction by nearly 40%.",
         author: "Elena Rostov",
         role: "Operations Director",
-        company: "Vanguard Tech Labs"
+        company: "Vanguard Tech Labs",
+        photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
     },
     {
         quote: "The system is incredibly fast, clean, and perfectly suited for our dynamic workflows. Having separate international processing layers built seamlessly into one framework is elite.",
         author: "Marcus Vance",
         role: "Founder",
-        company: "Sovereign SaaS Inc."
+        company: "Sovereign SaaS Inc.",
+        photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
     }
 ]

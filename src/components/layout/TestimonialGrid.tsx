@@ -31,8 +31,16 @@ export default function TestimonialGrid() {
                             </p>
 
                             <div className="flex items-center gap-3 pt-4 border-t border-zinc-900">
-                                <div className="h-10 w-10 rounded-full bg-zinc-800 flex items-center justify-center font-bold text-xs text-zinc-400 border border-zinc-700">
-                                    {rev.author[0]}
+                                <div className="h-10 w-10 rounded-full bg-zinc-800 flex items-center justify-center font-bold text-xs text-zinc-400 border border-zinc-800 overflow-hidden shrink-0">
+                                    {rev.photo ? (
+                                        <img
+                                            src={rev.photo}
+                                            alt={rev.author}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        rev.author[0]
+                                    )}
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-bold text-white">{rev.author}</h4>

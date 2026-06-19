@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAgencyStore } from '@/store/useAgencyStore'
 import { supabase } from '@/lib/supabaseClient' // 1. Import our central database client
@@ -17,7 +17,7 @@ const contactSchema = z.object({
 })
 
 export default function ContactSection() {
-    const { market, currency } = useAgencyStore()
+    const { market, currency, selectedPackage } = useAgencyStore()
     const [submitted, setSubmitted] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false) // Track live database network execution state
     const [serverError, setServerError] = useState<string | null>(null) // Capture structural network exceptions
@@ -32,6 +32,25 @@ export default function ContactSection() {
 
     // Track specific input errors by matching field keys to error messages
     const [errors, setErrors] = useState<Record<string, string>>({})
+
+    useEffect(() => {
+        if (selectedPackage) {
+            setFormData(prev => {
+                // Remove existing prefix if present so we don't stack them
+                let cleanDetails = prev.details;
+                const prefixRegex = /^\[Selected Package Profile: [^\]]+\] - /;
+                if (prefixRegex.test(cleanDetails)) {
+                    cleanDetails = cleanDetails.replace(prefixRegex, '');
+                }
+
+                return {
+                    ...prev,
+                    scope: selectedPackage.scope,
+                    details: `[Selected Package Profile: ${selectedPackage.title}] - ${cleanDetails}`
+                };
+            });
+        }
+    }, [selectedPackage])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
