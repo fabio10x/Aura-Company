@@ -36,20 +36,19 @@ export default function ManageCaseStudies() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
     useEffect(() => {
+        const fetchCaseStudies = async () => {
+            try {
+                const { data, error } = await supabase.from('case_studies').select('*').order('created_at', { ascending: false })
+                if (error) throw error
+                setCaseStudies(data || [])
+            } catch (err: any) {
+                setError(err.message || 'Failed to load case studies.')
+            } finally {
+                setIsLoading(false)
+            }
+        }
         fetchCaseStudies()
     }, [])
-
-    const fetchCaseStudies = async () => {
-        try {
-            const { data, error } = await supabase.from('case_studies').select('*').order('created_at', { ascending: false })
-            if (error) throw error
-            setCaseStudies(data || [])
-        } catch (err: any) {
-            setError(err.message || 'Failed to load case studies.')
-        } finally {
-            setIsLoading(false)
-        }
-    }
 
     const uploadImage = async (file: File): Promise<string> => {
         const fileName = `${Date.now()}-${file.name}`
